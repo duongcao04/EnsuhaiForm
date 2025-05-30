@@ -7,6 +7,8 @@ import { Input, Select, Button, Card, Space, InputNumber, Tooltip } from 'antd'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import Swal from 'sweetalert2'
 import { jobOptions, statusOptions } from '@/app/constants/appConstants'
+import { formatDate } from '@/lib/utils'
+import { appendData } from '@/actions/google-sheet.action'
 
 const initialValues = {
     status: '',
@@ -25,21 +27,17 @@ export default function RegisterForm() {
         onSubmit: async (values) => {
             try {
                 setLoading(true)
-                const response = await fetch('/api/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        fullName: values.fullName,
-                        status: values.status,
-                        jobs: values.jobs,
-                        phone: values.phone,
-                        birthYear: values.birthYear,
-                    }),
-                })
 
-                await response.json()
+                const rowData = [
+                    '=ROW()-3',
+                    values.fullName,
+                    values.phone,
+                    values.birthYear,
+                    values.status,
+                    values.jobs.join(', '),
+                    formatDate(new Date().toISOString()),
+                ]
+                await appendData(rowData)
 
                 Swal.fire({
                     title: 'Đăng ký thông tin thành công!',
@@ -48,7 +46,12 @@ export default function RegisterForm() {
                 })
                 formik.resetForm()
             } catch (error) {
-                console.log(`${error}`)
+                Swal.fire({
+                    title: 'Đăng ký thông tin thất bại!',
+                    text: `${error}`,
+                    icon: 'error',
+                    draggable: true,
+                })
             } finally {
                 setLoading(false)
             }
