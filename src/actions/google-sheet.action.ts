@@ -1,12 +1,19 @@
 'use server'
 
 import { google } from 'googleapis'
-import path from 'path'
 
 export async function getGoogleSheetsClient() {
     try {
         const auth = await google.auth.getClient({
-            keyFile: path.join(process.cwd(), 'credentials.json'),
+            projectId: process.env.NEXT_GOOGLE_PROJECT_ID,
+            credentials: {
+                type: 'service_account',
+                project_id: process.env.NEXT_GOOGLE_PROJECT_ID,
+                private_key_id: process.env.NEXT_GOOGLE_PRIVATE_KEY_ID,
+                private_key: process.env.NEXT_GOOGLE_PRIVATE_KEY,
+                client_email: process.env.NEXT_CLIENT_EMAIL,
+                universe_domain: 'googleapis.com',
+            },
             scopes: ['https://www.googleapis.com/auth/spreadsheets'],
         })
 
