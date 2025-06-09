@@ -1,8 +1,8 @@
 export const statusOptions = [
-    'Đang hoạt động',
-    'Không hoạt động',
-    'Chờ xử lý',
-    'Tạm dừng',
+    'Trung học phổ thông',
+    'Sinh viên năm 1',
+    'Sinh viên năm 2',
+    'Người đi làm'
 ]
 
 export const jobOptions = [

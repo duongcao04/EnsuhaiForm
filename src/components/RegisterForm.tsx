@@ -45,6 +45,7 @@ export default function RegisterForm() {
                     draggable: true,
                 })
                 formik.resetForm()
+                window.location.href = 'https://esuhai.vn/'
             } catch (error) {
                 Swal.fire({
                     title: 'Đăng ký thông tin thất bại!',
@@ -97,7 +98,6 @@ export default function RegisterForm() {
                                 placeholder="Chọn trạng thái"
                                 size="large"
                                 style={{ width: '100%' }}
-                                value={formik.values.status}
                                 onChange={(value) =>
                                     formik.setFieldValue('status', value)
                                 }
@@ -208,20 +208,16 @@ export default function RegisterForm() {
                                     />
                                 </Tooltip>
                             </label>
-                            <Input
+                            <InputNumber
                                 placeholder="Nhập số điện thoại (10 chữ số)"
                                 size="large"
                                 maxLength={10}
                                 style={{ width: '100%' }}
                                 value={formik.values.phone}
-                                onChange={(
-                                    e: React.ChangeEvent<HTMLInputElement>
-                                ) =>
-                                    formik.setFieldValue(
-                                        'phone',
-                                        e.target.value
-                                    )
+                                onChange={(value) =>
+                                    formik.setFieldValue('phone', value)
                                 }
+                                type="number"
                                 onBlur={() => formik.handleBlur('phone')}
                                 status={
                                     formik.touched.phone && formik.errors.phone
@@ -325,6 +321,7 @@ export default function RegisterForm() {
                                 onChange={(value) =>
                                     formik.setFieldValue('birthYear', value)
                                 }
+                                type="number"
                                 onBlur={() => formik.handleBlur('birthYear')}
                                 status={
                                     formik.touched.birthYear &&
